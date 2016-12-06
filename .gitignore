@@ -1,0 +1,5 @@
+# Webstorm files
+.idea
+# Node js files
+node_modules
+dev.db
