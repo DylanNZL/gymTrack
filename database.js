@@ -26,18 +26,19 @@ function addNewSet(mName, mDate, mMSet, mReps, mWeight) {
 }
 
 // Adds a new exercise to the definitions table
-function addNewExercise(mName) {
+function addNewExercise(mName, mTarget) {
     checkIfNameExists(mName, function (result) {
 
     });
 
-    bookshelf.knex('exercise_name').insert( { name : mName } ).then(function (data) {
+    bookshelf.knex('exercise_name').insert( { name : mName, target: mTarget } ).then(function (data) {
 
     }).catch(function (err) {
         console.error("addNewExercise Error: " + err);
         console.log(mName);
     })
 }
+
 
 
 /* Retrieve Data */
@@ -75,3 +76,5 @@ function testCheckIfNameExists() {
 testCheckIfNameExists();
 
 
+exports.addNewSet       = addNewSet;
+exports.addNewExercise  = addNewExercise;
