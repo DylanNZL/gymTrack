@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
             table.increments('_id');
             table.timestamp('timestamp');
             table.string('name').unique();
+            table.integer('target');
         })
     ])
 };
