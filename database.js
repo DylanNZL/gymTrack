@@ -11,11 +11,11 @@ var bookshelf = require('./bookshelf.js');
 // Adds a new set of an exercise to the exercise table
 function addNewSet(mName, mDate, mMSet, mReps, mWeight) {
     var obj = {
-        name : mName,
-        date : mDate,
+        name_id : mName,
+        timestamp : mDate,
         mSet : mMSet,
         reps : mReps,
-        mWeight : mWeight
+        weight : mWeight
     };
     bookshelf.knex('exercise').insert(obj).then(function (data) {
 
@@ -27,7 +27,7 @@ function addNewSet(mName, mDate, mMSet, mReps, mWeight) {
 
 // Adds a new exercise to the definitions table
 function addNewExercise(mName) {
-    checkIfNameExists(mName, function (result){
+    checkIfNameExists(mName, function (result) {
 
     });
 
@@ -43,6 +43,7 @@ function addNewExercise(mName) {
 /* Retrieve Data */
 
 function checkIfNameExists(mName, callback) {
+    mName = mName.toLowerCase();
     bookshelf.knex('exercise_name').where('name', mName).select('name').then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
@@ -58,4 +59,19 @@ function checkIfNameExists(mName, callback) {
 
 
 /* Tests */
+
+// Test adding a new set of exercise 12
+function testAddNewSet() {
+    addNewSet(12, this.timeStamp, 2, 8, 65);
+}
+testAddNewSet();
+
+// Test the checking if a name exists with a bench press
+function testCheckIfNameExists() {
+    checkIfNameExists("bench press", function (result) {
+
+    });
+}
+testCheckIfNameExists();
+
 
