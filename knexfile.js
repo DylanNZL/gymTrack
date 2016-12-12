@@ -9,7 +9,8 @@ module.exports = {
         client: 'sqlite3',
         connection: {
             filename: './dev.db'
-        }
+        },
+        useNullAsDefault: true
     },
 
     staging: {
