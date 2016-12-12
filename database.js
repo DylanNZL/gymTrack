@@ -66,10 +66,10 @@ function addNewTarget(mName) {
 /* Exercise Table queries */
 
 // Get all the exercise data between to dates
-function getExerciseHistoryFromDate(mStartTime, mEndTime) {
+function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
     bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).select('name_id', 'mSet', 'reps', 'weight').then(function (data) {
         if ((data) && (data.length > 0)) {
-            callback(true);
+            callback(data);
         } else {
             callback(0);
         }
@@ -81,19 +81,35 @@ function getExerciseHistoryFromDate(mStartTime, mEndTime) {
 }
 
 // Get specific exercise data between two dates
-function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime) {
-    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).select('name_id', 'mSet', 'reps', 'weight').then(function (data) {
+function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callback) {
+    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).andWhere('name_id', mName).select('mSet', 'reps', 'weight').then(function (data) {
         if ((data) && (data.length > 0)) {
-            callback(true);
+            callback(data);
         } else {
             callback(0);
         }
     }).catch(function (err) {
-        console.error("getExerciseHistoryFromDate Error:" + err);
+        console.error("getSpecificExerciseHistoryFromDate Error:" + err);
         console.log(mStartTime, mEndTime);
         callback(0);
     })
 }
+
+function getSpecificExerciseHistoryAll(mName, callback) {
+    bookshelf.knex('exercise').where('name_id', mName).select('mSet', 'reps', 'weight').then(function (data) {
+        if ((data) && (data.length > 0)) {
+            callback(data);
+        } else {
+            callback(0);
+        }
+    }).catch(function (err) {
+        console.error("getSpecificExerciseHistoryAll Error:" + err);
+        console.log(mName);
+        callback(0);
+    })
+}
+
+/* Name Table queries */
 
 // Checks the exercise_name db against the provided name
 function checkIfNameExists(mName, callback) {
@@ -110,8 +126,6 @@ function checkIfNameExists(mName, callback) {
         callback(0);
     })
 }
-
-/* Name Table queries */
 
 function getExercises(callback) {
     bookshelf.knex('exercise_name').select('name', 'target_id').then(function(data) {
@@ -203,43 +217,19 @@ function getTargetFromName(mName, callback) {
 /**
  * Tests
  * Ordered by:
- *  Insert Tests
- *  Retrieve Tests
- *  Test running
+ *
  */
+addNewSet(0, Date.now(), 2, 10, 65);
 
-/* Inserting tests */
-
-// Test adding a new set of exercise 12
-function testAddNewSet() {
-    addNewSet(12, 15, 2, 8, 65);
-}
-
-// Test adding a new exercise
-function testAddNewExercise() {
-
-}
-
-// Test adding a target
-
-/* Retrieving tests */
-
-// Test the checking if a name exists with a bench press
-function testCheckIfNameExists() {
-    checkIfNameExists("bench press", function (result) {
-        console.log(result);
-    });
-}
-
-function runInsertTests() {
-    testAddNewSet();
-    // TODO: retrival statement to check if insertion was correct
-
-}
-
-function runRetrieveTests() {
-
-}
+getSpecificExerciseHistoryAll(0, function (data) {
+    if (data != 0) {
+        data.forEach(function (dat) {
+            console.log(dat[0].mSet + 'x' + dat[0].reps + '@' + dat[0].weight);
+        });
+    } else {
+        console.log(data);
+    }
+});
 
 
 // Insert
@@ -247,7 +237,3 @@ exports.addNewSet           = addNewSet;
 exports.addNewExercise      = addNewExercise;
 exports.addNewTarget        = addNewTarget;
 // Retrieve
-
-// Test
-exports.runInsertTests      = runInsertTests;
-exports.runRetrieveTests    = runRetrieveTests;
