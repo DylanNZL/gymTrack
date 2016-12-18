@@ -1,0 +1,39 @@
+<div id="selectorProg">
+
+    <form action="" method="get" id="selected">
+        <p>Exercise:
+        <select>
+            {{#each exercise}}
+                <option value="{{this._id}}">{{this.name}}</option>
+            {{/each}}
+        </select> &nbsp;
+        All Workouts <input type="checkbox" name="all" value="true" id="allSelector" onclick="disableDates() "></p>
+        <p>Only From: <input type="date" name="from" id="fromDate">&nbsp;&nbsp;
+        To: <input type="date" name="to" id="toDate"></p>
+    </form>
+    <button type="submit" form="selected" value="submit">Show</button>
+</div>
+<div id="progress">
+    <table>
+        <tr>
+            <thead>Date</thead>
+            <thead>Sets</thead>
+            <thead>Reps</thead>
+            <thead>Weight</thead>
+        </tr>
+
+    </table>
+</div>
+<script>
+    function disableDates() {
+        console.log(document.getElementById("allSelector").checked);
+
+        if (document.getElementById("allSelector").checked) {
+            document.getElementById("fromDate").isDisabled = true;
+            document.getElementById("toDate").isDisabled = true;
+        } else {
+            document.getElementById("fromDate").isDisabled = false;
+            document.getElementById("toDate").isDisabled = false;
+        }
+    }
+</script>
