@@ -5,7 +5,6 @@
 // Required files
 var bookshelf = require('./bookshelf.js');
 
-
 /**
  * Insert data
  * Ordered by:
@@ -19,9 +18,9 @@ function addNewSet(mName, mDate, mMSet, mReps, mWeight) {
     var obj = {
         name_id : mName,
         timestamp : mDate,
-        mSet : mMSet,
-        reps : mReps,
-        weight : mWeight
+        s : mMSet,
+        r : mReps,
+        w : mWeight
     };
     bookshelf.knex('exercise').insert(obj).then(function (data) {
 
@@ -37,7 +36,7 @@ function addNewExercise(mName, mTarget) {
 
     });
 
-    bookshelf.knex('exercise_name').insert( { name : mName, target: mTarget } ).then(function (data) {
+    bookshelf.knex('exercise_name').insert( { name : mName, target_id: mTarget } ).then(function (data) {
 
     }).catch(function (err) {
         console.error("addNewExercise Error: " + err);
@@ -47,7 +46,7 @@ function addNewExercise(mName, mTarget) {
 
 // Adds a new target to the target definitions
 function addNewTarget(mName) {
-    bookshelf.knex('exercise_target').insert({ name : mName }).then(function (data) {
+    bookshelf.knex('exercise_target').insert({ target : mName }).then(function (data) {
 
     }).catch(function (err) {
         console.error("addNewExercise: Error: + err");
@@ -67,7 +66,7 @@ function addNewTarget(mName) {
 
 // Get all the exercise data between to dates
 function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
-    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).select('name_id', 'mSet', 'reps', 'weight').then(function (data) {
+    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -82,7 +81,7 @@ function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
 
 // Get specific exercise data between two dates
 function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callback) {
-    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).andWhere('name_id', mName).select('mSet', 'reps', 'weight').then(function (data) {
+    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).andWhere('name_id', mName).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -96,7 +95,7 @@ function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callbac
 }
 
 function getSpecificExerciseHistoryAll(mName, callback) {
-    bookshelf.knex('exercise').where('name_id', mName).select('mSet', 'reps', 'weight').then(function (data) {
+    bookshelf.knex('exercise').where('name_id', mName).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -219,6 +218,7 @@ function getTargetFromName(mName, callback) {
  * Ordered by:
  *
  */
+/*
 addNewSet(0, Date.now(), 2, 10, 65);
 
 getSpecificExerciseHistoryAll(0, function (data) {
@@ -230,6 +230,7 @@ getSpecificExerciseHistoryAll(0, function (data) {
         console.log(data);
     }
 });
+*/
 
 
 // Insert
@@ -237,3 +238,6 @@ exports.addNewSet           = addNewSet;
 exports.addNewExercise      = addNewExercise;
 exports.addNewTarget        = addNewTarget;
 // Retrieve
+exports.getExerciseHistoryFromDate = getExerciseHistoryFromDate;
+exports.getSpecificExerciseHistoryFromDate = getSpecificExerciseHistoryFromDate;
+exports.getSpecificExerciseHistoryAll = getSpecificExerciseHistoryAll;
