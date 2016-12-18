@@ -7,18 +7,47 @@ var router = express.Router();
 
 /* GET progression/stats page. */
 router.get('/', function(req, res, next) {
-    rend(res);
+    history(res, req);
 });
 
-function rend(res) {
-    //database.getExerciseHistoryFromDate();
+// Get exercise history and pass it to the render function
+function history(res, req) {
+    var fromDate = req.query.from;
+    var toDate = req.query.to;
+    var all = req.query.allDates;
+    var ex = req.query.exercise;
+    console.log(ex + ' ' + all + ' ' + toDate + ' ' + fromDate);
+    if (ex) {
+        if (all) {
+            database.getSpecificExerciseHistoryAll(ex, function (date) {
+                if (date) {
+                    rend(res, date, ex);
+                } else {
+                    rend(res, 0, ex);
+                }
+            })
+        } else {
+            database.getSpecificExerciseHistoryFromDate(ex, fromDate, toDate, function (date) {
+                if (date) {
+                    rend(res, date, ex);
+                } else {
+                    rend(res, 0, ex);
+                }
+            });
+        }
+    } else {
+        rend(res, 0)
+    }
+}
+
+// get exercise names, and render the page
+function rend(res, exData, ex) {
     database.getExercises(function (data) {
         if (data) {
-            res.render('progression', { title: 'Exercise Tracker', exercise : data });
+            res.render('progression', { title: 'Exercise Tracker', exercise: data, history : exData, exName : data[ex - 1].name });
         } else {
-            res.render('progression', {title: 'Exercise Tracker', exercise: 0});
+            res.render('progression', {title: 'Exercise Tracker', exercise: 0, history : exData, exName : data[ex - 1].name });
         }
     });
-
 }
 module.exports = router;

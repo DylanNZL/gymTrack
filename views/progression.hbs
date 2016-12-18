@@ -2,32 +2,73 @@
 
     <form action="" method="get" id="selected">
         <p>Exercise:
-        <select>
+        <select name="exercise" name="exercise">
             {{#each exercise}}
                 <option value="{{this._id}}">{{this.name}}</option>
             {{/each}}
         </select> &nbsp;
-        All Workouts <input type="checkbox" name="all" value="true" id="allSelector" onclick="disableDates() "></p>
+        All Workouts <input type="checkbox" name="allDates" value="true" id="allSelector" onclick="disableDates() "></p>
         <p>Only From: <input type="date" name="from" id="fromDate">&nbsp;&nbsp;
         To: <input type="date" name="to" id="toDate"></p>
     </form>
     <button type="submit" form="selected" value="submit">Show</button>
 </div>
+
+<div id="progressChart">
+
+</div>
+
 <div id="progress">
     <table>
-        <tr>
-            <thead>Date</thead>
-            <thead>Sets</thead>
-            <thead>Reps</thead>
-            <thead>Weight</thead>
-        </tr>
-
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Sets</th>
+                <th>Reps</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each history}}
+            <tr>
+                <td>{{history.timestamp}}</td>
+                <td>{{history.s}}</td>
+                <td>{{history.r}}</td>
+                <td>{{history.w}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
     </table>
 </div>
-<script>
-    function disableDates() {
-        console.log(document.getElementById("allSelector").checked);
 
+<!-- Google Chart API -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- Local Chart Drawing -->
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Date', 'Reps', 'Weights']
+            {{#each history}}
+                , [{{this.timestamp}}, {{this.r}}, {{this.w}}]
+                    {{/each}}
+        ]);
+        var options = {
+            title: '{{ exName }}',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('progressChart'));
+
+        chart.draw(data, options);
+    }
+</script>
+<!-- Disable Date script -->
+<script type="text/javascript">
+    function disableDates() {
         if (document.getElementById("allSelector").checked) {
             document.getElementById("fromDate").isDisabled = true;
             document.getElementById("toDate").isDisabled = true;
