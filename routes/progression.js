@@ -12,13 +12,24 @@ router.get('/', function(req, res, next) {
 
 // Get exercise history and pass it to the render function
 function history(res, req) {
-    var fromDate = req.query.from;
-    var toDate = req.query.to;
-    var all = req.query.allDates;
+    var date = req.query.date;
     var ex = req.query.exercise;
-    console.log(ex + ' ' + all + ' ' + toDate + ' ' + fromDate);
     if (ex) {
-        if (all) {
+        var toDate = new Date();
+        var fromDate = toDate;
+        if (date == "month") {
+            fromDate.setMonth(toDate.getMonth() - 1);
+            fromDate.setHours(0,0,0,0);
+            historyFromDate(res, ex, fromDate, toDate);
+        } else if (date == "half") {
+            fromDate.setMonth(toDate.getMonth() - 6);
+            fromDate.setHours(0,0,0,0);
+            historyFromDate(res, ex, fromDate, toDate);
+        } else if (date == "year") {
+            fromDate.setYear(toDate.getYear() - 1);
+            fromDate.setHours(0,0,0,0);
+            historyFromDate(res, ex, fromDate, toDate);
+        } else {
             database.getSpecificExerciseHistoryAll(ex, function (date) {
                 if (date) {
                     rend(res, date, ex);
@@ -26,18 +37,20 @@ function history(res, req) {
                     rend(res, 0, ex);
                 }
             })
-        } else {
-            database.getSpecificExerciseHistoryFromDate(ex, fromDate, toDate, function (date) {
-                if (date) {
-                    rend(res, date, ex);
-                } else {
-                    rend(res, 0, ex);
-                }
-            });
         }
     } else {
         rend(res, 0)
     }
+}
+
+function historyFromDate(res, ex, fromDate, toDate) {
+    database.getSpecificExerciseHistoryFromDate(ex, fromDate, toDate, function (date) {
+        if (date) {
+            rend(res, date, ex);
+        } else {
+            rend(res, 0, ex);
+        }
+    });
 }
 
 // get exercise names, and render the page

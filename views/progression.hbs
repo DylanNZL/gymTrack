@@ -1,6 +1,6 @@
 <div id="selectorProg">
 
-    <form action="" method="get" id="selected">
+    <!--<form action="" method="get" id="selected">
         <p>Exercise:
         <select name="exercise" name="exercise">
             {{#each exercise}}
@@ -10,6 +10,20 @@
         All Workouts <input type="checkbox" name="allDates" value="true" id="allSelector" onclick="disableDates() "></p>
         <p>Only From: <input type="date" name="from" id="fromDate">&nbsp;&nbsp;
         To: <input type="date" name="to" id="toDate"></p>
+    </form>-->
+    <form action="" method="get" id="selected">
+        <p>Exercise:
+            <select name="exercise" name="exercise">
+                {{#each exercise}}
+                    <option value="{{this._id}}"> {{this.name}} </option>
+                {{/each}}
+            </select> &nbsp;
+            Show past:
+            <input type="radio" name="date" value="month">&nbsp; Month &nbsp;
+            <input type="radio" name="date" value="six">&nbsp; 6 Months &nbsp;
+            <input type="radio" name="date" value="year">&nbsp; Year &nbsp;
+            <input type="radio" name="date" value="all">&nbsp; All &nbsp;
+
     </form>
     <button type="submit" form="selected" value="submit">Show</button>
 </div>
@@ -31,10 +45,10 @@
         <tbody>
         {{#each history}}
             <tr>
-                <td>{{history.timestamp}}</td>
-                <td>{{history.s}}</td>
-                <td>{{history.r}}</td>
-                <td>{{history.w}}</td>
+                <td>{{this.timestamp}}</td>
+                <td>{{this.s}}</td>
+                <td>{{this.r}}</td>
+                <td>{{this.w}}</td>
             </tr>
         {{/each}}
         </tbody>
@@ -64,17 +78,5 @@
         var chart = new google.visualization.LineChart(document.getElementById('progressChart'));
 
         chart.draw(data, options);
-    }
-</script>
-<!-- Disable Date script -->
-<script type="text/javascript">
-    function disableDates() {
-        if (document.getElementById("allSelector").checked) {
-            document.getElementById("fromDate").isDisabled = true;
-            document.getElementById("toDate").isDisabled = true;
-        } else {
-            document.getElementById("fromDate").isDisabled = false;
-            document.getElementById("toDate").isDisabled = false;
-        }
     }
 </script>
