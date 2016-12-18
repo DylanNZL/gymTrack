@@ -4,9 +4,9 @@ exports.up = function(knex, Promise) {
         knex.schema.createTable('exercise', function (table) {
             table.integer('name_id');
             table.timestamp('timestamp');
-            table.integer('mSet');
-            table.integer('reps');
-            table.integer('weight');
+            table.integer('s');
+            table.integer('r');
+            table.integer('w');
         })
     ])
 };
