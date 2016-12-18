@@ -16,7 +16,7 @@ target.push("Forearms");
 target.push("Cardio");
 
 function loadTargets() {
-    targe.forEach(function (t) {
+    target.forEach(function (t) {
         database.addNewTarget(t);
     })
 }
@@ -65,7 +65,8 @@ function loadNames() {
 }
 
 // Test
-loadTargets().then(loadNames());
+loadTargets();
+loadNames();
 
 exports.loadTargets = loadTargets;
 exports.loadNames   = loadNames;
