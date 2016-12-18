@@ -1,7 +1,30 @@
 <div id="selectorWork">
+
     Start New Workout
     Continue Workout
 </div>
-<div id="">
+<div id="previous">
 
+</div>
+<div id="recorder">
+    <table>
+        <thead>
+            <th>Set</th>
+            <th>Reps</th>
+            <th>Weight</th>
+        </thead>
+        <tbody>
+            {{#each current}}
+                <tr>
+                    <td>{{this.setNo}}</td>
+                    <td>{{this.reps}}</td>
+                    <td>{{this.weight}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <p> Add to current exercise: </p>
+    <form>
+
+    </form>
 </div>
