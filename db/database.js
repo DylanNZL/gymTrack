@@ -49,7 +49,7 @@ function addNewTarget(mName) {
     bookshelf.knex('exercise_target').insert({ target : mName }).then(function (data) {
 
     }).catch(function (err) {
-        console.error("addNewExercise: Error: + err");
+        console.error("addNewExercise: Error:" + err);
         console.log(mName);
     })
 }

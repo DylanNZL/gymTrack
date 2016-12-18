@@ -8,7 +8,7 @@ module.exports = {
     development: {
         client: 'sqlite3',
         connection: {
-            filename: '../dev.db'
+            filename: './dev.db'
         },
         useNullAsDefault: true
     },
