@@ -44,9 +44,28 @@ function history(res, req) {
 function rend(res, exData, ex) {
     database.getExercises(function (data) {
         if (data) {
-            res.render('progression', { title: 'Exercise Tracker', exercise: data, history : exData, exName : data[ex - 1].name });
+            if (ex && ex != 0) {
+                res.render('progression', {
+                    title: 'Exercise Tracker',
+                    exercise: data,
+                    history: exData,
+                    exName: data[ex - 1].name
+                });
+            } else {
+                res.render('progression', {
+                    title: 'Exercise Tracker',
+                    exercise: data,
+                    history : exData,
+                    exName : 0
+                });
+            }
         } else {
-            res.render('progression', {title: 'Exercise Tracker', exercise: 0, history : exData, exName : data[ex - 1].name });
+            res.render('progression', {
+                title: 'Exercise Tracker',
+                exercise: 0,
+                history : exData,
+                exName : 0
+            });
         }
     });
 }
