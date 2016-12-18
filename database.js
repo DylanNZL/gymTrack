@@ -113,7 +113,7 @@ function getSpecificExerciseHistoryAll(mName, callback) {
 // Checks the exercise_name db against the provided name
 function checkIfNameExists(mName, callback) {
     mName = mName.toLowerCase();
-    bookshelf.knex('exercise_name').where('name', mName).select('name').then(function (data) {
+    bookshelf.knex('exercise_name').where('name', mName).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -127,7 +127,7 @@ function checkIfNameExists(mName, callback) {
 }
 
 function getExercises(callback) {
-    bookshelf.knex('exercise_name').select('name', 'target_id').then(function(data) {
+    bookshelf.knex('exercise_name').select().then(function(data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -140,7 +140,7 @@ function getExercises(callback) {
 }
 
 function getExerciseFromId(mID, callback) {
-    bookshelf.knex('exercise_name').where('_id', mID).select('name').then(function (data) {
+    bookshelf.knex('exercise_name').where('_id', mID).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -241,3 +241,4 @@ exports.addNewTarget        = addNewTarget;
 exports.getExerciseHistoryFromDate = getExerciseHistoryFromDate;
 exports.getSpecificExerciseHistoryFromDate = getSpecificExerciseHistoryFromDate;
 exports.getSpecificExerciseHistoryAll = getSpecificExerciseHistoryAll;
+exports.getExercises        = getExercises;
