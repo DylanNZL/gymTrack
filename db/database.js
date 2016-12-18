@@ -218,14 +218,13 @@ function getTargetFromName(mName, callback) {
  * Ordered by:
  *
  */
-/*
-addNewSet(0, Date.now(), 2, 10, 65);
 
-getSpecificExerciseHistoryAll(0, function (data) {
-    if (data != 0) {
-        data.forEach(function (dat) {
-            console.log(dat[0].mSet + 'x' + dat[0].reps + '@' + dat[0].weight);
-        });
+/*
+getExercises(function(data) {
+    if (data) {
+        data.forEach(function (d) {
+            console.log(d.name);
+        })
     } else {
         console.log(data);
     }

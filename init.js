@@ -3,7 +3,7 @@
  * This file intialises the database with names of common exercises that i could remember
  */
 
-var database = require('./database.js');
+var database = require('./db/database.js');
 
 var target = [];
 target.push("Chest");

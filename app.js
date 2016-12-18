@@ -12,7 +12,7 @@ var index = require('./routes/index'),
     workout = require('./routes/workout');
 
 // JS files
-var database = require('./database.js');
+var database = require('./db/database.js');
 
 var app = express();
 
@@ -63,5 +63,18 @@ app.use(function(err, req, res, next) {
         console.log(data);
     }
 });*/
+
+/*
+database.getExercises(function(data) {
+    if (data) {
+        data.forEach(function (d) {
+            console.log(d.name);
+        })
+    } else {
+        console.log(data);
+    }
+});
+*/
+
 
 module.exports = app;
