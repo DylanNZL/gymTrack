@@ -3,28 +3,72 @@
     Start New Workout
     Continue Workout
 </div>
-<div id="previous">
-
-</div>
+<br/>
 <div id="recorder">
-    <table>
-        <thead>
-            <th>Set</th>
-            <th>Reps</th>
-            <th>Weight</th>
-        </thead>
-        <tbody>
-            {{#each current}}
+    <div>
+        <table id="currentEx">
+            <thead>
                 <tr>
-                    <td>{{this.setNo}}</td>
-                    <td>{{this.reps}}</td>
-                    <td>{{this.weight}}</td>
+                    <th>Set</th>
+                    <th>Reps</th>
+                    <th>Weight</th>
+                    <th>Add</th>
                 </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    <p> Add to current exercise: </p>
-    <form>
-
-    </form>
+            </thead>
+            <tbody>
+                {{#each current}}
+                    <tr>
+                        <td>{{this.setNo}}</td>
+                        <td>{{this.reps}}</td>
+                        <td>{{this.weight}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <form action="" method="get" id="addSet">
+                        <td>{{currentSet}}</td>
+                        <td><input type="text" name="reps" size="4" placeholder="8"></td>
+                        <td><input type="text" name="weight" size="4" placeholder="60"></td>
+                    </form>
+                    <td><button type="submit" form="addSet" value="submit">Add Set</button></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <br/>
+    <div >
+        <form action="" method="get" id="selector" style="display: inline-block;">
+            <select name="exercise" name="exercise">
+                {{#each exercise}}
+                    <option value="{{this._id}}"> {{this.name}} </option>
+                {{/each}}
+            </select> &nbsp;
+        </form>
+        <button type="submit" form="selector" value="submit" style="display: inline-block;">Next Exercise</button>
+    </div>
+</div>
+<br/>
+<div id="previous">
+    {{#each previous}}
+        <h3>{{this.name}}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Set</th>
+                    <th>Reps</th>
+                    <th>Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.set}}
+                    <tr>
+                        <td>{{this.setNo}}</td>
+                        <td>{{this.reps}}</td>
+                        <td>{{this.weight}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/each}}
 </div>
