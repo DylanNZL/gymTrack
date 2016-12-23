@@ -7,27 +7,18 @@ var router = express.Router();
 
 var exercises = 0;
 
-var setTemplate = {
-    setNo : 0,
-    reps : 0,
-    weight : 0
-};
-
-var currentSets = {
-    name : "",
-    sets : []
-};
+var currentSets = [];
+var currentName = "Bench";
 
 var currentSetNo = 1;
 
 // GET workout page.
 // Based on the query it will render the base page, or update the current workout based on what variables are sent
 router.get('/', function(req, res, next) {
-    //console.log(req.query);
     var reps = req.query.reps;
     var weight = req.query.weight;
     var newEx = req.query.exercise;
-    //console.log(reps + ' ' + weight + ' ' + newEx);
+
     if (reps && weight) { capture(res, reps, weight); }
     else if (newEx) { newExercise(res, newEx) }
     else { rend(res); }
@@ -36,25 +27,22 @@ router.get('/', function(req, res, next) {
 
 // Add new set to the current group for this exercise, render page again
 function capture(res, reps, weight) {
+    var set = {
+        number : currentSetNo,
+        reps : reps,
+        weight : weight
+    };
+    currentSets.push(set);
+    currentSetNo++;
+
+    rend (res);
     console.log("capture");
     console.log(currentSets);
-    var set = setTemplate;
-    set.setNo = currentSetNo;
-    set.reps = reps;
-    set.weight = weight;
-    currentSets.sets.push(set);
-    currentSetNo++;
-    rend (res);
 }
 
 // Start new exercise, clear current group, render page again
 function newExercise(res, newEx) {
     console.log("new ex");
-    // Add current to the previous array
-    var addPrev = prevTemplate;
-    addPrev.name = currentSets.name;
-    addPrev.set = currentSets.sets;
-    prev.push(addPrev);
     // Reset current array
     currentSets.name = newEx;
     currentSets.sets = [];
@@ -70,19 +58,20 @@ function rend (res) {
                 exercises = 0;
                 res.render('workout', {
                     title: 'Exercise Tracker',
-                    exercise: data,
-                    current: currentSets,
-                    currentSet: currentSetNo
+                    exercise : data,
+                    currentSets : currentSets,
+                    currentName : currentName,
+                    currentSetNo : currentSetNo
                 });
             }
         });
     } else {
         res.render('workout', {
             title: 'Exercise Tracker',
-            exercise: data,
-            current: currentSets,
-            currentSet: currentSetNo,
-            previous: prev
+            exercise : data,
+            currentSets : currentSets,
+            currentName : currentName,
+            currentSetNo : currentSetNo
         });
     }
 }
