@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each current}}
+                {{#each current.sets}}
                     <tr>
                         <td>{{this.setNo}}</td>
                         <td>{{this.reps}}</td>
@@ -43,7 +43,7 @@
                 {{#each exercise}}
                     <option value="{{this._id}}"> {{this.name}} </option>
                 {{/each}}
-            </select> &nbsp;
+            </select>
         </form>
         <button type="submit" form="selector" value="submit" style="display: inline-block;">Next Exercise</button>
     </div>
