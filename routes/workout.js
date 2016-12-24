@@ -9,6 +9,7 @@ var exercises = 0;
 
 var currentSets = [];
 var currentName = "Bench";
+var currentEx = 1;
 
 var currentSetNo = 1;
 
@@ -39,9 +40,9 @@ function initialiseNewWorkout(res) {
 // Add new set to the current group for this exercise, render page again
 function capture(res, reps, weight) {
     var set = {
-        number : currentSetNo,
-        reps : reps,
-        weight : weight
+        number: currentSetNo,
+        reps: parseInt(reps),
+        weight: parseInt(weight)
     };
     currentSets.push(set);
     currentSetNo++;
@@ -55,7 +56,16 @@ function capture(res, reps, weight) {
 function newExercise(res, newEx) {
     console.log("new ex");
     // save current set to database
-    database.addNewSet();
+    var reps = 0;
+    var weight = 0;
+    var count = currentSets.length;
+    currentSets.forEach(function (set) {
+        reps = reps + set.reps;
+        weight += set.weight;
+    });
+    // get average if more than one set
+    if (count > 1) { reps = reps / count; weight = weight / count; }
+    if (reps != 0 && weight != 0) { database.addNewSet(currentEx, count, reps, weight); }
 
     // Reset current array
 

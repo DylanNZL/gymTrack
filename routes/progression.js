@@ -4,6 +4,7 @@
 var express = require('express');
 var database = require('../db/database.js');
 var router = express.Router();
+var Handlebars = require('hbs');
 
 /* GET progression/stats page. */
 router.get('/', function(req, res, next) {
@@ -82,4 +83,20 @@ function rend(res, exData, ex) {
         }
     });
 }
+
+Handlebars.registerHelper("day", function (date) {
+    date = new Date(date);
+    return parseInt(date.getDate());
+});
+
+Handlebars.registerHelper("month", function (date) {
+    date = new Date(date);
+    return parseInt(date.getMonth());
+});
+
+Handlebars.registerHelper("year", function (date) {
+    date = new Date(date);
+    return parseInt(date.getFullYear());
+});
+
 module.exports = router;

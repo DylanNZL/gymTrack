@@ -33,7 +33,7 @@
         <tbody>
         {{#each history}}
             <tr>
-                <td>{{this.timestamp}}</td>
+                <td>{{this.created_at}}</td>
                 <td>{{this.s}}</td>
                 <td>{{this.r}}</td>
                 <td>{{this.w}}</td>
@@ -51,12 +51,17 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Date', 'Reps', 'Weights']
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Reps');
+        data.addColumn('number', 'Weight');
+        data.addRows([
             {{#each history}}
-                , [{{this.timestamp}}, {{this.r}}, {{this.w}}]
-                    {{/each}}
+                [new Date({{year this.created_at}}, {{month this.created_at}}, {{day this.created_at}}), {{this.r}}, {{this.w}}],
+            {{/each}}
         ]);
+
+
         var options = {
             title: '{{ exName }}',
             curveType: 'function',
