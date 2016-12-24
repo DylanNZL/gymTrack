@@ -7,7 +7,7 @@ var router = express.Router();
 var Handlebars = require('hbs');
 
 /* GET progression/stats page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     history(res, req);
 });
 

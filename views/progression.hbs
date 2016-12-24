@@ -21,7 +21,7 @@
 </div>
 
 <div id="progress">
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -33,7 +33,7 @@
         <tbody>
         {{#each history}}
             <tr>
-                <td>{{this.created_at}}</td>
+                <td>{{day this.created_at}}/{{month this.created_at}}/{{year this.created_at}}</td>
                 <td>{{this.s}}</td>
                 <td>{{this.r}}</td>
                 <td>{{this.w}}</td>
