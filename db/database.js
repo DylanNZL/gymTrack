@@ -14,10 +14,9 @@ var bookshelf = require('./bookshelf.js');
  */
 
 // Adds a new set of an exercise to the exercise table
-function addNewSet(mName, mDate, mMSet, mReps, mWeight) {
+function addNewSet(mName, mMSet, mReps, mWeight) {
     var obj = {
         name_id : mName,
-        timestamp : mDate,
         s : mMSet,
         r : mReps,
         w : mWeight
@@ -66,7 +65,7 @@ function addNewTarget(mName) {
 
 // Get all the exercise data between to dates
 function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
-    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).select().then(function (data) {
+    bookshelf.knex('exercise').whereBetween('created_at', [mStartTime, mEndTime]).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -81,7 +80,7 @@ function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
 
 // Get specific exercise data between two dates
 function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callback) {
-    bookshelf.knex('exercise').whereBetween('timestamp', [mStartTime, mEndTime]).andWhere('name_id', mName).select().then(function (data) {
+    bookshelf.knex('exercise').whereBetween('created_at', [mStartTime, mEndTime]).andWhere('name_id', mName).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -154,7 +153,7 @@ function getExerciseFromId(mID, callback) {
 }
 
 function getExerciseFromName(mName, callback) {
-    bookshelf.knex('exercise_name').where('name', mName).select('_id').then(function (data) {
+    bookshelf.knex('exercise_name').where('name', mName).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -171,7 +170,7 @@ function getExerciseFromName(mName, callback) {
 
 // Retrieve all targets, return an array
 function getTargets(callback) {
-    bookshelf.knex('exercise_targets').select('_id', 'target').then(function (data) {
+    bookshelf.knex('exercise_targets').select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -185,7 +184,7 @@ function getTargets(callback) {
 
 // Get the name of a target from an id
 function getTargetFromId(mID, callback) {
-    bookshelf.knex('exercise_targets').where('_id', mID).select('target').then(function (data) {
+    bookshelf.knex('exercise_targets').where('_id', mID).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
@@ -200,7 +199,7 @@ function getTargetFromId(mID, callback) {
 
 // Get the id of a target from the name
 function getTargetFromName(mName, callback) {
-    bookshelf.knex('exercise_targets').where('target', mTarget).select('_id').then(function (data) {
+    bookshelf.knex('exercise_targets').where('target', mTarget).select().then(function (data) {
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
