@@ -67,6 +67,7 @@ function addNewTarget(mName) {
 function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
     bookshelf.knex('exercise').whereBetween('created_at', [mStartTime, mEndTime]).select().orderBy('created_at').then(function (data) {
         if ((data) && (data.length > 0)) {
+            console.log(data);
             callback(data);
         } else {
             callback(0);
@@ -81,8 +82,9 @@ function getExerciseHistoryFromDate(mStartTime, mEndTime, callback) {
 // Get specific exercise data between two dates
 function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callback) {
     bookshelf.knex('exercise').whereBetween('created_at', [mStartTime, mEndTime]).andWhere('name_id', mName).select().orderBy('created_at').then(function (data) {
+        console.log(data);
         if ((data) && (data.length > 0)) {
-            callback(data);
+            console.log(data);
         } else {
             callback(0);
         }
@@ -95,6 +97,7 @@ function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callbac
 
 function getSpecificExerciseHistoryAll(mName, callback) {
     bookshelf.knex('exercise').where('name_id', mName).select().orderBy('created_at').then(function (data) {
+        console.log(data);
         if ((data) && (data.length > 0)) {
             callback(data);
         } else {
