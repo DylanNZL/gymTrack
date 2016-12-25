@@ -84,6 +84,7 @@ function getSpecificExerciseHistoryFromDate(mName, mStartTime, mEndTime, callbac
     bookshelf.knex('exercise').whereBetween('created_at', [mStartTime, mEndTime]).andWhere('name_id', mName).select().orderBy('created_at').then(function (data) {
         console.log(data);
         if ((data) && (data.length > 0)) {
+            callback(data);
             console.log(data);
         } else {
             callback(0);
