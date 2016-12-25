@@ -16,19 +16,20 @@ function history(res, req) {
     var date = req.query.date;
     var ex = req.query.exercise;
     if (ex) {
+        console.log(date);
         var toDate = new Date();
-        var fromDate = toDate;
-        if (date == "month") {
-            fromDate.setMonth(toDate.getMonth() - 1);
-            fromDate.setHours(0,0,0,0);
+        var fromDate = new Date();
+        if (date === "month") {
+            fromDate.setMonth(fromDate.getMonth() - 1);
+            console.log(toDate, fromDate);
             historyFromDate(res, ex, fromDate, toDate);
-        } else if (date == "half") {
-            fromDate.setMonth(toDate.getMonth() - 6);
-            fromDate.setHours(0,0,0,0);
+        } else if (date === "six") {
+            fromDate.setMonth(fromDate.getMonth() - 6);
+            console.log(toDate, fromDate);
             historyFromDate(res, ex, fromDate, toDate);
-        } else if (date == "year") {
-            fromDate.setYear(toDate.getYear() - 1);
-            fromDate.setHours(0,0,0,0);
+        } else if (date === "year") {
+            fromDate.setMonth(fromDate.getMonth() - 12);
+            console.log(toDate, fromDate);
             historyFromDate(res, ex, fromDate, toDate);
         } else {
             database.getSpecificExerciseHistoryAll(ex, function (date) {
@@ -58,7 +59,7 @@ function historyFromDate(res, ex, fromDate, toDate) {
 function rend(res, exData, ex) {
     database.getExercises(function (data) {
         if (data) {
-            if (ex && ex != 0) {
+            if (ex && ex > 0) {
                 res.render('progression', {
                     title: 'Exercise Tracker',
                     exercise: data,
