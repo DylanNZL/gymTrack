@@ -21,16 +21,13 @@ function history(res, req) {
         var fromDate = new Date();
         if (date === "month") {
             fromDate.setMonth(fromDate.getMonth() - 1);
-            console.log(toDate, fromDate);
-            historyFromDate(res, ex, fromDate, toDate);
+            historyFromDate(res, ex, fromDate.toISOString(), toDate.toISOString());
         } else if (date === "six") {
             fromDate.setMonth(fromDate.getMonth() - 6);
-            console.log(toDate, fromDate);
-            historyFromDate(res, ex, fromDate, toDate);
+            historyFromDate(res, ex, fromDate.toISOString(), toDate.toISOString());
         } else if (date === "year") {
             fromDate.setMonth(fromDate.getMonth() - 12);
-            console.log(toDate, fromDate);
-            historyFromDate(res, ex, fromDate, toDate);
+            historyFromDate(res, ex, fromDate.toISOString(), toDate.toISOString());
         } else {
             database.getSpecificExerciseHistoryAll(ex, function (date) {
                 if (date) {
