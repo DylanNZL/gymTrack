@@ -29,6 +29,7 @@ router.get('/', function(req, res) {
 });
 
 function initialiseNewWorkout(res) {
+    console.log('start New');
     // Initialises variables again
     currentSets = [];
     currentName = "Select Workout";
@@ -48,8 +49,6 @@ function capture(res, reps, weight) {
     currentSetNo++;
 
     rend (res);
-    console.log("capture");
-    console.log(currentSets);
 }
 
 // Start new exercise, clear current group, render page again
